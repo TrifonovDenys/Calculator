@@ -25,13 +25,41 @@ const symbols = [
   { btnText: '.' },
   { btnText: '=' },
 ];
-
+const listEL = document.createElement('ul')
 function createButtons(arr) {
-  const listEL = document.createElement('ul')
+  // const listEL = document.createElement('ul')
   listEL.classList.add('list')
   const btmItems = arr.map(({ btnText }) => `<li class="item"><button class="calc_btn">${btnText}</button></li>`).join('')
   listEL.insertAdjacentHTML('beforeend', btmItems)
   return listEL
     
 }
- body.append(createButtons(symbols))
+body.append(createButtons(symbols))
+ 
+// function createInputs() {
+  const inputData = document.createElement('input')
+  console.log(inputData);
+  body.append(inputData)
+inputData.textContent = ''
+  inputData.placeholder = '0'
+  const listData = document.createElement('label')
+// }
+
+listEL.addEventListener('click', vue)
+
+function vue(e) {
+  console.log(e.target.textContent);
+  if(e.target.nodeName === 'BUTTON' && e.target.textContent != '='){
+    inputData.textContent += e.target.textContent
+  }
+
+  if (e.target.textContent === '=') {
+    inputData.textContent = eval(inputData.textContent)
+  }
+  if (e.target.textContent === '+/-') {
+    inputData.textContent = inputData.textContent
+  }
+  if (e.target.textContent === 'C') {
+    inputData.textContent = ''
+  }
+}
