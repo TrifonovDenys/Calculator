@@ -26,40 +26,84 @@ const symbols = [
   { btnText: '=' },
 ];
 const listEL = document.createElement('ul')
+
 function createButtons(arr) {
-  // const listEL = document.createElement('ul')
   listEL.classList.add('list')
   const btmItems = arr.map(({ btnText }) => `<li class="item"><button class="calc_btn">${btnText}</button></li>`).join('')
   listEL.insertAdjacentHTML('beforeend', btmItems)
-  return listEL
-    
+  return listEL  
 }
+
 body.append(createButtons(symbols))
  
 // function createInputs() {
   const inputData = document.createElement('input')
   console.log(inputData);
-  body.append(inputData)
-inputData.textContent = ''
+  body.prepend(inputData)
   inputData.placeholder = '0'
-  const listData = document.createElement('label')
 // }
 
 listEL.addEventListener('click', vue)
 
 function vue(e) {
   console.log(e.target.textContent);
-  if(e.target.nodeName === 'BUTTON' && e.target.textContent != '='){
-    inputData.textContent += e.target.textContent
+  if('1234567890'.includes(e.target.textContent)){
+    inputData.value = inputData.value + +e.target.textContent
+    console.log(inputData);
   }
 
-  if (e.target.textContent === '=') {
-    inputData.textContent = eval(inputData.textContent)
+  if (e.target.textContent === 'CE' || e.target.textContent === 'C') clear()
+  if (e.target.textContent === '1/x') drob()
+  if (e.target.textContent === 'x^2') sqr()
+  if (e.target.textContent === 'x^1/2') sqrt()
+  if (e.target.textContent === '+/-') changeznak()
+  if (e.target.textContent === 'X') removeSymbol()
+  if (e.target.textContent === '.') adddot()
+  if (e.target.textContent === '=') result()
+    
+    if('/+-*'.includes(e.target.textContent)){
+    inputData.value = inputData.value + e.target.textContent
+    console.log(inputData);
   }
-  if (e.target.textContent === '+/-') {
-    inputData.textContent = inputData.textContent
+}
+
+
+function clear() {
+  inputData.value = ''
+}
+
+function drob() {
+  inputData.value = 1/inputData.value
+}
+
+function sqr() {
+  inputData.value = inputData.value ** 2
+}
+
+function sqrt() {
+  inputData.value = inputData.value ** (1/2)
+}
+
+function changeznak() {
+  inputData.value = -inputData.value
+}
+
+function removeSymbol() {
+  let a = `${inputData.value}`.split('')
+  a.pop()
+  if(a.length === 0){
+    inputData.value = ''
+    return
   }
-  if (e.target.textContent === 'C') {
-    inputData.textContent = ''
-  }
+  inputData.value = +a.join('')
+}
+
+function adddot() {
+  if (inputData.value.includes('.')) return
+  if (inputData.value === '') return inputData.value = 0 + '.'
+  if (inputData.value !== '') inputData.value += '.'
+}
+
+function result() {
+  inputData.value = eval(inputData.value)
 }
